@@ -1,0 +1,8 @@
+target
+src/main/gwt-unitCache
+.project
+.classpath
+.gwt
+.settings
+src/main/webapp/WEB-INF/deploy
+src/main/webapp/dimensions
