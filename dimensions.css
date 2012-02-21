@@ -56,7 +56,6 @@ h1 {
 	color: #ddd;
 	font-size: 10pt;
 	white-space:nowrap;
-	width: 40px !important
 }
 
 .header {	
@@ -76,7 +75,6 @@ h1 {
 
 .grey-area {
 	background-color: #fafafa !important;
-	border: 1px solid #FAFAFA;
 }
 
 .week-odd {

@@ -1,8 +1,10 @@
 package com.conceptual.dimensions.server;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+import org.joda.time.LocalDate;
 
 import com.conceptual.dimensions.client.DimensionsService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -11,17 +13,27 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DimensionsServiceImpl extends RemoteServiceServlet implements DimensionsService {
 	
 	@Override
-	public String getMyDimensions() {
-		File dimensionsDesign = new File(this.getClass().getResource("timedimensions-design.html").getPath());				
-		String html = null;
-		try {
-			html = FileUtils.readFileToString(dimensionsDesign, "UTF-8");
+	public String getMyDimensions(Date startDate, Date endDate) {
+		List<String> goals = new ArrayList<String>();
+		goals.add("m&i");
+		goals.add("h");
+		goals.add("az");
+		goals.add("exp");
+		goals.add("soc");
+		goals.add("proj");		
+		
+		LocalDate start = LocalDate.fromDateFields(startDate);
+		LocalDate end = LocalDate.fromDateFields(endDate);
+		
+		if (end.isBefore(start)) {
+			throw new RuntimeException("Invalid dates");
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return "Woops, errors..";
-		}
-		return html;		
+		
+		DimensionsBuilder builder = new DimensionsBuilder(goals, start, end, 3);
+		
+		builder.print();
+		
+		return builder.getText();
 	}
 
 }

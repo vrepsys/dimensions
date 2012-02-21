@@ -1,16 +1,17 @@
 package com.conceptual.dimensions.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 public class DimensionsMain extends Composite {
 
@@ -42,7 +43,15 @@ public class DimensionsMain extends Composite {
 
 	@UiHandler("goButton")
 	void onGoButtonClick(ClickEvent event) {
-		service.getMyDimensions(new AsyncCallback<String>() {			
+		if (startDateBox.getValue() == null || endDateBox.getValue() == null) {
+			Window.alert("Please enter valid dates. Thanks");
+			return;
+		}
+		if (startDateBox.getValue().after(endDateBox.getValue())) {
+			Window.alert("Sorry, there's no 'plan your past' capabilities yet. Please enter valid dates.");
+			return;
+		}
+		service.getMyDimensions(startDateBox.getValue(), endDateBox.getValue(), new AsyncCallback<String>() {			
 			@Override
 			public void onSuccess(String result) {
 				System.out.println("success="+result);
@@ -51,8 +60,7 @@ public class DimensionsMain extends Composite {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
+				Window.alert("Woops.. error. " + caught.getMessage());
 			}
 		});
 	}
