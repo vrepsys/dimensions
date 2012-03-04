@@ -1,6 +1,5 @@
 package com.conceptual.dimensions.server;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,15 +12,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DimensionsServiceImpl extends RemoteServiceServlet implements DimensionsService {
 	
 	@Override
-	public String getMyDimensions(Date startDate, Date endDate) {
-		List<String> goals = new ArrayList<String>();
-		goals.add("m&i");
-		goals.add("h");
-		goals.add("az");
-		goals.add("exp");
-		goals.add("soc");
-		goals.add("proj");		
-		
+	public String getMyDimensions(Date startDate, Date endDate, List<String> dimensions) {	
 		LocalDate start = LocalDate.fromDateFields(startDate);
 		LocalDate end = LocalDate.fromDateFields(endDate);
 		
@@ -29,11 +20,16 @@ public class DimensionsServiceImpl extends RemoteServiceServlet implements Dimen
 			throw new RuntimeException("Invalid dates");
 		}
 		
-		DimensionsBuilder builder = new DimensionsBuilder(goals, start, end, 3);
+		DimensionsBuilder builder = new DimensionsBuilder(dimensions, start, end, 3);
 		
 		builder.print();
 		
 		return builder.getText();
+	}
+	
+	@Override
+	public Date getDefaultEndDate() {	
+		return new LocalDate().dayOfYear().withMaximumValue().toDate();
 	}
 
 }

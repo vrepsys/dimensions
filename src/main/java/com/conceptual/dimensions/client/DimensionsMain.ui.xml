@@ -1,35 +1,38 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client" xmlns:p2="urn:import:com.conceptual.dimensions.client">
 	<ui:style>
-		.important {
-			font-weight: bold;
+		.box {
+			background-color: #555 !important;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+			border: 3px solid #555;
+			color: white;
+			margin-bottom: 10px;			
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:VerticalPanel>
-			<g:Grid styleName="noPrint">
+		<g:VerticalPanel styleName="{style.box} noPrint">
+			<g:Grid height="36px">
 				<g:row>
 					<g:customCell>
-						<g:Label text="Start"/>
+						<g:HorizontalPanel>
+							<g:VerticalPanel>
+								<p1:DateBox ui:field="startDateBox"/>
+								<p1:DateBox ui:field="endDateBox"/>
+							</g:VerticalPanel>
+							<g:Button text="GO!" ui:field="goButton" width="80px" height="64px"/>
+						</g:HorizontalPanel>
 					</g:customCell>
+				</g:row>
+				<g:row>
 					<g:customCell>
-						<p1:DateBox ui:field="startDateBox"/>
-					</g:customCell>
-					<g:customCell>
-						<g:Label text="End"/>
-					</g:customCell>
-					<g:customCell>
-						<p1:DateBox ui:field="endDateBox"/>
-					</g:customCell>
-					<g:customCell>
-						<g:Button text="GO!" ui:field="goButton"/>
+						<p2:AddDimensionsPanel width="233px" ui:field="dimensionsPanel"/>
 					</g:customCell>
 				</g:row>
 			</g:Grid>
-			<g:HTML wordWrap="true" ui:field="myDimensionsHtml"/>
-		</g:VerticalPanel>
-		
+		</g:VerticalPanel>		
+		<g:HTML wordWrap="true" ui:field="myDimensionsHtml"/>
 		
 	</g:HTMLPanel>
 </ui:UiBinder> 

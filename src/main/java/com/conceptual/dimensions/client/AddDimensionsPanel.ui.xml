@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client" xmlns:w="urn:import:com.google.gwt.widget.client">
+	<g:HTMLPanel>
+		<g:Grid>
+			<g:row>
+				<g:customCell>
+					<g:VerticalPanel ui:field="dimensionsListPanel"/>
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell>
+					<g:Button ui:field="addDimensionButton">Add Dimension</g:Button>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+
+	</g:HTMLPanel>
+</ui:UiBinder>

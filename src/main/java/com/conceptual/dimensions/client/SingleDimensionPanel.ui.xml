@@ -1,0 +1,8 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<g:HTMLPanel>
+		<g:TextBox width="144px" ui:field="goalTextBox"/>
+		<g:Button ui:field="removeButton">Remove</g:Button>
+	</g:HTMLPanel>
+</ui:UiBinder> 

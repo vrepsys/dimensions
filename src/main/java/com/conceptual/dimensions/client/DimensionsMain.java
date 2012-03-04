@@ -1,5 +1,7 @@
 package com.conceptual.dimensions.client;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -15,18 +17,20 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 public class DimensionsMain extends Composite {
 
-	private final DimensionsServiceAsync service = GWT
-			.create(DimensionsService.class);
-	
-	private static DimensionsMainUiBinder uiBinder = GWT
-			.create(DimensionsMainUiBinder.class);
-	
+	private final DimensionsServiceAsync service = GWT.create(DimensionsService.class);
+
+	private static DimensionsMainUiBinder uiBinder = GWT.create(DimensionsMainUiBinder.class);
+
 	@UiField
 	DateBox startDateBox;
 	@UiField
 	DateBox endDateBox;
-	@UiField Button goButton;
-	@UiField HTML myDimensionsHtml;
+	@UiField
+	Button goButton;
+	@UiField
+	HTML myDimensionsHtml;
+	@UiField
+	AddDimensionsPanel dimensionsPanel;
 
 	interface DimensionsMainUiBinder extends UiBinder<Widget, DimensionsMain> {
 	}
@@ -35,6 +39,17 @@ public class DimensionsMain extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		startDateBox.setFormat(new DateFormatMedium());
 		endDateBox.setFormat(new DateFormatMedium());
+		startDateBox.setValue(new Date());
+		service.getDefaultEndDate(new AsyncCallback<Date>() {
+			@Override
+			public void onSuccess(Date result) {			
+				endDateBox.setValue(result);
+			}			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Woops.. error. " + caught.getMessage());
+			}
+		});
 	}
 
 	public DimensionsMain(String firstName) {
@@ -51,17 +66,17 @@ public class DimensionsMain extends Composite {
 			Window.alert("Sorry, there's no 'plan your past' capabilities yet. Please enter valid dates.");
 			return;
 		}
-		service.getMyDimensions(startDateBox.getValue(), endDateBox.getValue(), new AsyncCallback<String>() {			
-			@Override
-			public void onSuccess(String result) {
-				System.out.println("success="+result);
-				myDimensionsHtml.setHTML(result);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Woops.. error. " + caught.getMessage());
-			}
-		});
+		service.getMyDimensions(startDateBox.getValue(), endDateBox.getValue(), dimensionsPanel.getDimensions(),
+				new AsyncCallback<String>() {
+					@Override
+					public void onSuccess(String result) {						
+						myDimensionsHtml.setHTML(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Woops.. error. " + caught.getMessage());
+					}
+				});
 	}
 }
